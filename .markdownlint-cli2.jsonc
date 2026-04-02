@@ -1,0 +1,7 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint-cli2/refs/heads/main/schema/markdownlint-cli2-config-schema.json",
+  "gitignore": true,
+  "config": {
+    "MD013": false, // Disable line length check (MD013) - allows wrapped lines in docs
+  },
+}
