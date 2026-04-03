@@ -46,7 +46,7 @@ Option definition.
   - `with_help(help)`
   - `required()`
 
-### CliAppConfig
+### `CliAppConfig`
 
 Top-level config used by runtime builders.
 
@@ -55,7 +55,7 @@ Top-level config used by runtime builders.
 
 ## Runtime Contracts
 
-### Command
+### `Command`
 
 Parsed command abstraction exposed to handlers.
 
@@ -69,7 +69,7 @@ Parser abstraction.
 
 - `parse(input: &[String]) -> Result<Box<dyn Command>, CliAdapterError>`
 
-### CliRuntime<C>
+### `CliRuntime<C>`
 
 Adapter-agnostic runtime with typed context.
 
@@ -84,7 +84,7 @@ Runtime behavior:
 - dispatches by canonical command name (for example `templates/add`)
 - returns error for unregistered commands
 
-### CliRuntimeHandler<C>
+### `CliRuntimeHandler<C>`
 
 Handler contract used by `CliRuntime`.
 
@@ -93,14 +93,14 @@ Handler contract used by `CliRuntime`.
 
 ## Clap Implementation
 
-### ClapAdapter
+### `ClapAdapter`
 
 Adapter implementation backed by `clap`.
 
 - `new(definition: clap::Command) -> Self`
 - `from_spec(spec: &CliSpec) -> Self`
 
-### ClapCliRuntimeBuilder<C>
+### `ClapCliRuntimeBuilder<C>`
 
 Builds `CliRuntime<C>` with `ClapAdapter`.
 
@@ -121,7 +121,7 @@ The key must match parsed command names generated from the command tree.
 
 ## Error Surface
 
-### CliAdapterError
+### `CliAdapterError`
 
 Adapter-level parse/help error type.
 
