@@ -13,12 +13,12 @@ The `nfw` CLI is the primary entry point for workspace and service lifecycle ope
 
 ## Exit Codes
 
-| Code | Meaning              |
-| ---- | -------------------- |
-| 0    | Success              |
-| 1    | Runtime failure      |
-| 2    | Usage error          |
-| 130  | Interrupted (SIGINT) |
+| Code | Meaning                                |
+| ---- | -------------------------------------- |
+| 0    | Success                                |
+| 1    | Runtime failure or validation findings |
+| 2    | Usage error                            |
+| 130  | Interrupted (SIGINT)                   |
 
 Error messages follow the format `[exit:<code>] <message>` so scripts can parse the exit code from stderr.
 
@@ -146,6 +146,84 @@ nfw add service my-api --template dotnet-minimal-api --no-input
 ```
 
 On success, the CLI prints the service name, output path, template identifier, and template version.
+
+---
+
+### `nfw check`
+
+Validate workspace architecture against defined rules. This command scans all project manifests and source files in the current workspace and reports violations of forbidden project references, namespace usage, direct package dependencies, lint issues, and test failures.
+
+```bash
+nfw check
+```
+
+`nfw check` is non-interactive and operates on the workspace rooted at the nearest `nfw.yaml` file above the current directory.
+
+#### What It Validates
+
+| Check Layer          | What It Scans                                           | Finding Type          |
+| -------------------- | ------------------------------------------------------- | --------------------- |
+| Project References   | Workspace dependency graph against forbidden rules      | `project_reference`   |
+| Namespace Usage      | Source files for forbidden namespace imports            | `namespace_usage`     |
+| Package Usage        | Direct package references declared by each project      | `package_usage`       |
+| Unreadable Artifacts | Manifests or source files that cannot be parsed or read | `unreadable_artifact` |
+| Lint Checks          | Runs `make lint` in each service defined in `nfw.yaml`  | `lint_issue`          |
+| Service Test Checks  | Runs `make test` in each service defined in `nfw.yaml`  | `test_issue`          |
+
+#### Supported Project Types
+
+`nfw check` automatically detects and validates:
+
+- **C#** (`.csproj` files) — extracts `<ProjectReference>` and `<PackageReference>` entries
+- **Rust** (`Cargo.toml` files) — extracts path dependencies and `[dependencies]` entries
+- **Go** (`go.mod` files) — extracts module dependencies and replace directives
+
+#### Exit Codes
+
+| Code | Meaning                                   |
+| ---- | ----------------------------------------- |
+| 0    | No findings — workspace passes all checks |
+| 1    | One or more validation findings detected  |
+| 130  | Interrupted by SIGINT                     |
+
+#### Output Format
+
+**Success:**
+
+```
+architecture validation passed in '/path/to/workspace': no forbidden project references, namespaces, direct packages, lint issues, or service test issues found
+```
+
+**Failure:**
+
+```
+architecture validation found 3 issue(s)
+- type=project_reference location=/path/to/service/Service.csproj offending_value=../forbidden/Forbidden.csproj hint=remove forbidden project reference and use interface instead
+- type=namespace_usage location=/path/to/service/Handler.cs offending_value=Forbidden.Domain hint=remove forbidden namespace usage
+- type=lint_issue location=/path/to/service hint=run `make lint`, fix reported lint violations, then rerun `nfw check`
+summary: project_reference=1, namespace_usage=1, package_usage=0, unreadable_artifact=0, lint_issue=1, test_issue=0
+```
+
+Each finding includes:
+
+- **type** — The category of violation
+- **location** — The file or directory where the issue was found
+- **offending** — The forbidden value or context
+- **hint** — An actionable remediation suggestion
+
+#### Examples
+
+```bash
+# Run architecture validation from any directory inside the workspace
+nfw check
+
+# Use in CI — exit code indicates pass/fail
+nfw check || echo "Architecture validation failed"
+```
+
+#### Configuration
+
+Rules are defined in the workspace's `nfw.yaml` file. The check command reads rule sets that define forbidden project references, namespaces, and packages per architecture layer.
 
 ---
 
