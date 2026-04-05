@@ -10,6 +10,21 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n-framework/' }],
       sidebar: [
         {
+          label: 'Getting Started',
+          link: '/getting-started/',
+        },
+        {
+          label: 'Architecture',
+          items: [{ label: 'Overview', link: '/architecture/overview/' }],
+        },
+        {
+          label: 'CLI',
+          items: [
+            { label: 'Commands', link: '/cli/commands/' },
+            { label: 'Templates', link: '/cli/templates/' },
+          ],
+        },
+        {
           label: 'Core Packages',
           items: [
             {
@@ -18,8 +33,8 @@ export default defineConfig({
                 {
                   label: 'nframework-core-cli',
                   items: [
-                    { label: 'Overview', slug: 'core-packages/rust/nframework-core-cli/overview' },
-                    { label: 'References', slug: 'core-packages/rust/nframework-core-cli/references' },
+                    { label: 'Overview', link: '/core-packages/rust/nframework-core-cli/overview/' },
+                    { label: 'References', link: '/core-packages/rust/nframework-core-cli/references/' },
                   ],
                 },
               ],

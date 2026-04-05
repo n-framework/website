@@ -1,13 +1,52 @@
 ---
 title: Welcome to NFramework
-description: Get started building your project with NFramework.
+description: A compile-time-first application framework and workspace standard for building clean architecture services.
 template: splash # Remove or comment out this line to display the site sidebar on this page.
 hero:
-  tagline: Congrats on setting up a new NFramework project!
+  tagline: Clean architecture, enforced. Compile-time generation. Zero-dependency core.
   image:
     file: ../../assets/n-framework.webp
   actions:
-    - text: Guide
-      link: /core-packages/rust/nframework-core-cli/overview/
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+    - text: CLI Commands
+      link: /cli/commands/
       icon: right-arrow
 ---
+
+## What is NFramework?
+
+NFramework is a compile-time-first application framework and workspace standard for building clean architecture services across .NET, Go, and Rust. It removes the runtime bloat, reflection-heavy startup cost, and inconsistent service structure found in traditional enterprise frameworks.
+
+The `nfw` CLI gives teams a fast and opinionated way to scaffold services, enforce architecture boundaries, and generate boilerplate safely at compile time.
+
+## Key Features
+
+- **CLI-driven workflow** — Create workspaces, scaffold services, and validate architecture with a single tool.
+- **Clean Architecture enforced** — Layer boundaries checked automatically, not just documented.
+- **Compile-time generation** — DI registration and route discovery at build time, not runtime.
+- **Zero-dependency core** — Framework packages have no external library dependencies.
+- **Replaceable adapters** — Swap persistence, logging, and validation libraries without touching domain code.
+- **Polyglot ready** — One workspace standard across .NET, Go, and Rust.
+
+## Quick Start
+
+```bash
+# Install
+git clone https://github.com/n-framework/n-framework.git
+cd n-framework && make build
+
+# Create a workspace
+nfw new my-workspace
+
+# Add a service
+cd my-workspace && nfw add service my-api
+```
+
+## Product Plan
+
+- **Beta scope**: .NET-first, execution-focused with CLI, generators, and architecture validation.
+- **Product vision**: Polyglot ecosystem across .NET, Go, and Rust with contract-driven development.
+- **MCP support**: Tool and agent integrations for the workspace and CLI ecosystem.
+- **Non-negotiables**: Clean Architecture, Native AOT, and CLI-driven automation.

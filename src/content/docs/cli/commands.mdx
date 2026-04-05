@@ -1,0 +1,159 @@
+---
+title: CLI Commands
+description: Complete reference for every nfw CLI command, option, and flag.
+---
+
+The `nfw` CLI is the primary entry point for workspace and service lifecycle operations. Every command supports both interactive and non-interactive modes.
+
+## Global Behavior
+
+- **Interactive mode**: When run in a terminal with stdin and stdout connected, the CLI prompts for missing required input.
+- **Non-interactive mode**: Use `--no-input` to disable all prompts. The command fails if required input is missing.
+- **Exit codes**: The CLI returns structured exit codes for scripting and CI integration.
+
+## Exit Codes
+
+| Code | Meaning              |
+| ---- | -------------------- |
+| 0    | Success              |
+| 1    | Runtime failure      |
+| 2    | Usage error          |
+| 130  | Interrupted (SIGINT) |
+
+Error messages follow the format `[exit:<code>] <message>` so scripts can parse the exit code from stderr.
+
+## Commands
+
+### `nfw new`
+
+Create a new workspace from a template.
+
+```bash
+nfw new [workspace-name] [options]
+```
+
+| Option       | Description                                    |
+| ------------ | ---------------------------------------------- |
+| `--template` | Template identifier (qualified or unqualified) |
+| `--no-input` | Disable all interactive prompts                |
+
+**Examples:**
+
+```bash
+# Interactive — prompts for missing information
+nfw new my-workspace
+
+# Non-interactive — explicit template
+nfw new my-workspace --template blank-workspace --no-input
+
+# With a qualified template identifier
+nfw new my-workspace --template official/blank-workspace --no-input
+```
+
+On success, the CLI prints the workspace name, output path, selected template, and base namespace.
+
+---
+
+### `nfw templates`
+
+Manage template sources and discovery. Requires a subcommand.
+
+#### `nfw templates list`
+
+List all discovered templates with their identifiers, versions, and descriptions.
+
+```bash
+nfw templates list
+```
+
+Output format:
+
+```
+<source>/<id> <name> (<version>)
+  <description>
+```
+
+Warnings are printed to stderr before the template list.
+
+#### `nfw templates add`
+
+Register a new template source.
+
+```bash
+nfw templates add --name <source-name> --url <git-url>
+```
+
+| Option   | Description             | Required |
+| -------- | ----------------------- | -------- |
+| `--name` | Template source name    | Yes      |
+| `--url`  | Template source Git URL | Yes      |
+
+**Example:**
+
+```bash
+nfw templates add --name my-org --url https://github.com/my-org/nfw-templates.git
+```
+
+#### `nfw templates remove`
+
+Unregister a template source.
+
+```bash
+nfw templates remove --name <source-name>
+```
+
+| Option   | Description          | Required |
+| -------- | -------------------- | -------- |
+| `--name` | Template source name | Yes      |
+
+#### `nfw templates refresh`
+
+Refresh all template catalogs from their registered sources.
+
+```bash
+nfw templates refresh
+```
+
+This re-fetches template metadata from all registered sources and updates the local catalog.
+
+---
+
+### `nfw add`
+
+Create workspace artifacts. Requires a subcommand.
+
+#### `nfw add service`
+
+Generate a service from a service template.
+
+```bash
+nfw add service [name] [options]
+```
+
+| Option       | Description                     |
+| ------------ | ------------------------------- |
+| `--template` | Service template identifier     |
+| `--no-input` | Disable all interactive prompts |
+
+**Examples:**
+
+```bash
+# Interactive service creation
+nfw add service my-api
+
+# Non-interactive with explicit template
+nfw add service my-api --template dotnet-minimal-api --no-input
+```
+
+On success, the CLI prints the service name, output path, template identifier, and template version.
+
+---
+
+## Configuration
+
+The CLI reads optional configuration from `nfw.yaml` in the current working directory. Environment variables with the `NFW_` prefix override file keys. Invalid YAML produces a warning and the CLI continues with defaults.
+
+## Template Sources
+
+- **Debug builds**: Use `packages/nfw-templates` when the submodule exists. Falls back to release behavior if missing.
+- **Release builds**: Fetch templates from `github.com/n-framework/nfw-templates` at tag `v{cliVersion}`.

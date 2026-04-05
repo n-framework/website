@@ -1,0 +1,85 @@
+---
+title: Getting Started
+description: Install the nfw CLI, create your first workspace, and scaffold a service in minutes.
+---
+
+This guide walks you through installing the `nfw` CLI, creating a workspace, and generating your first service.
+
+## Prerequisites
+
+- **Rust 1.85+** (2024 edition) — required to build the CLI.
+- **Git** — used for template discovery and version control.
+- **Make** — repository build orchestration.
+
+## Installation
+
+Clone the repository and build the CLI:
+
+```bash
+git clone https://github.com/n-framework/n-framework.git
+cd n-framework
+make setup
+make build
+```
+
+After the build completes, the `nfw` binary is available in your Rust target directory. Add it to your `PATH` or run it directly:
+
+```bash
+# Verify the installation
+nfw --help
+```
+
+You should see the NFramework ASCII banner followed by the available commands.
+
+## Create Your First Workspace
+
+The fastest way to start is with the `nfw new` command:
+
+```bash
+nfw new my-workspace
+```
+
+In an interactive terminal, the CLI prompts for any missing information. For CI or scripted environments, use `--no-input` with an explicit template:
+
+```bash
+nfw new my-workspace --template blank-workspace --no-input
+```
+
+The command creates a workspace directory with the expected folder structure, solution files, and baseline configuration.
+
+## Add a Service
+
+Once you have a workspace, navigate into it and add a service:
+
+```bash
+cd my-workspace
+nfw add service my-api
+```
+
+The CLI scaffolds a service with the standard NFramework layer structure. If multiple service templates are available, you can select one interactively or specify it with `--template`.
+
+## List Available Templates
+
+To see what templates are available:
+
+```bash
+nfw templates list
+```
+
+This shows all discovered templates with their identifiers, versions, and descriptions.
+
+## Validate Architecture
+
+After generating code, run the architecture checker to verify layer boundaries:
+
+```bash
+nfw check
+```
+
+The command scans for forbidden project references, namespace violations, and dependency rule breaches. Use `--verbose` for detailed diagnostics.
+
+## Next Steps
+
+- Read the [CLI Commands](/cli/commands/) reference for the full command list.
+- Learn about [Architecture](/architecture/overview/) to understand layer responsibilities.
+- Explore [Templates](/cli/templates/) for catalog management and custom sources.
