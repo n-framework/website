@@ -34,7 +34,13 @@ export default defineConfig({
                   label: 'nframework-core-cli',
                   items: [
                     { label: 'Overview', link: '/core-packages/rust/nframework-core-cli/overview/' },
-                    { label: 'References', link: '/core-packages/rust/nframework-core-cli/references/' },
+                  ],
+                },
+                {
+                  label: 'nframework-core-template',
+                  items: [
+                    { label: 'Overview', link: '/core-packages/rust/nframework-core-template/overview/' },
+                    { label: 'API References', link: '/core-packages/rust/nframework-core-template/api-references/' },
                   ],
                 },
               ],
