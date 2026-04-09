@@ -11,8 +11,8 @@ It is designed so application packages can define commands and handlers without 
 
 `nframework-core-cli` currently contains two crates:
 
-- `nframework-core-cli-abstraction`
-  - pure abstraction/model crate
+- `nframework-core-cli-abstractions`
+  - pure abstractions/model crate
   - defines command/spec models and runtime contracts
   - no clap dependency
 - `nframework-core-cli-clap`
@@ -20,7 +20,7 @@ It is designed so application packages can define commands and handlers without 
   - converts `CliSpec` into clap commands
   - provides runtime builder for clap adapter wiring
 
-This split lets other projects reuse the abstraction crate and swap adapter implementations if needed.
+This split lets other projects reuse the abstractions crate and swap adapter implementations if needed.
 
 ## Core concepts
 
@@ -89,7 +89,7 @@ fn run() -> Result<(), String> {
 ### runtime module example
 
 ```rust
-use nframework_core_cli_abstraction::{
+use nframework_core_cli_abstractions::{
     CliAppConfig, CliCommandSpec, CliOptionSpec, CliSpec, Command,
 };
 use nframework_core_cli_clap::ClapCliRuntimeBuilder;
@@ -138,7 +138,7 @@ fn handle_add(command: &dyn Command, _: &AppServices) -> Result<(), String> {
 
 Use two test levels:
 
-- abstraction/adapter tests in `nframework-core-cli`
+- abstractions/adapter tests in `nframework-core-cli`
   - parse behavior
   - help/error behavior
   - runtime handler dispatch
@@ -149,6 +149,6 @@ Use two test levels:
 
 ## Notes for maintainers
 
-- Keep public abstractions in `nframework-core-cli-abstraction` stable for reuse.
+- Keep public abstractions in `nframework-core-cli-abstractions` stable for reuse.
 - Keep implementation details (`clap`) out of consumer app layers when possible.
 - Add new adapter crates under `nframework-core-cli` if additional parser backends are needed.

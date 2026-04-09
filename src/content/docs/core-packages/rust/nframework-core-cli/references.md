@@ -7,7 +7,7 @@ This page is a quick lookup for the core public contracts in `nframework-core-cl
 
 ## Crates
 
-- `nframework-core-cli-abstraction`
+- `nframework-core-cli-abstractions`
 - `nframework-core-cli-clap`
 
 ## Models
