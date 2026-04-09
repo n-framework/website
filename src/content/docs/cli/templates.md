@@ -110,6 +110,33 @@ Templates are identified by `<source>/<id>`:
 
 When multiple sources provide the same template ID, use the qualified form to avoid ambiguity.
 
+## Template Engine
+
+NFramework uses the `nframework-core-template` workspace for template rendering:
+
+- **Abstraction layer**: `TemplateRenderer`, `FileGenerator`, and `TemplateContext` traits
+- **Mustache implementation**: Included out of the box with caching for performance
+- **Extensible**: Swap template engines if needed (Handlebars, Jinja2, etc.)
+
+Templates use Mustache syntax for variable substitution:
+
+```text
+# Workspace name
+{{workspace_name}}
+
+# Conditional sections
+{{#include_tests}}
+Tests enabled!
+{{/include_tests}}
+
+# Lists
+{{#dependencies}}
+- {{name}}: {{version}}
+{{/dependencies}}
+```
+
+For detailed documentation of the template engine API and usage, see the [nframework-core-template overview](/core-packages/rust/nframework-core-template/overview/).
+
 ## Creating Custom Templates
 
 To create your own template source:
