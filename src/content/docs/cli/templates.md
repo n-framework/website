@@ -48,7 +48,7 @@ nfw templates list
 
 Shows all discovered templates across all registered sources:
 
-```
+```text
 official/blank-workspace Blank Workspace (1.0.0)
   Minimal starter workspace
 ```

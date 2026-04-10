@@ -11,7 +11,7 @@ This page provides a comprehensive API reference for the `nframework-core-templa
 
 Context for template rendering, containing key-value pairs substituted into templates.
 
-#### Methods
+#### Methods (TemplateContext)
 
 ##### `empty()`
 
@@ -148,14 +148,17 @@ Trait for rendering template content with a context.
 Renders the given template content with the provided context.
 
 **Parameters:**
+
 - `template_content`: The raw template string to render
 - `context`: The template context containing variable values
 
 **Returns:**
+
 - `Ok(String)`: The rendered content with variables substituted
 - `Err(TemplateError)`: If rendering fails
 
 **Example:**
+
 ```rust
 let renderer = MustacheTemplateRenderer::new();
 let rendered = renderer.render_content("Hello, {{name}}!", &context)?;
@@ -165,24 +168,27 @@ let rendered = renderer.render_content("Hello, {{name}}!", &context)?;
 
 Trait for generating files from templates.
 
-#### Required Methods
+#### Required Methods (FileGenerator)
 
 ##### `generate(&self, template_root: &Path, output_root: &Path, context: &TemplateContext) -> Result<(), TemplateError>`
 
 Generates files from templates in the template_root directory to output_root.
 
 **Parameters:**
+
 - `template_root`: The root directory containing template files
 - `output_root`: The root directory where rendered files will be written
 - `context`: The template context containing variable values
 
 **Returns:**
+
 - `Ok(())`: All files generated successfully
 - `Err(TemplateError)`: If generation fails
 
 **Overwrite Policy:** By default, existing output files are overwritten. Use `AtomicFileGenerator` for transactional behavior with rollback on failure.
 
 **Example:**
+
 ```rust
 let generator = MustacheFileGenerator::new();
 generator.generate(
@@ -196,7 +202,7 @@ generator.generate(
 
 Error type for template rendering and file generation operations.
 
-#### Methods
+#### Methods (TemplateError)
 
 ##### `new(kind: TemplateErrorKind) -> Self`
 
@@ -285,9 +291,9 @@ Validation errors (invalid context, missing required fields).
 
 Mustache-based template renderer with caching for performance.
 
-#### Methods
+#### Methods (MustacheTemplateRenderer)
 
-##### `new() -> Self`
+##### Constructor (MustacheTemplateRenderer)
 
 Creates a new Mustache template renderer with an empty cache.
 
@@ -309,9 +315,9 @@ let renderer = MustacheTemplateRenderer::with_cache_capacity(100);
 
 File generator implementation for Mustache templates.
 
-#### Methods
+#### Methods (MustacheFileGenerator)
 
-##### `new() -> Self`
+##### Constructor (MustacheFileGenerator)
 
 Creates a new Mustache file generator.
 

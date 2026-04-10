@@ -68,7 +68,7 @@ nfw templates list
 
 Output format:
 
-```
+```text
 <source>/<id> <name> (<version>)
   <description>
 ```
@@ -178,7 +178,7 @@ nfw check
 - **Rust** (`Cargo.toml` files) — extracts path dependencies and `[dependencies]` entries
 - **Go** (`go.mod` files) — extracts module dependencies and replace directives
 
-#### Exit Codes
+##### Exit Codes for `nfw check`
 
 | Code | Meaning                                   |
 | ---- | ----------------------------------------- |
@@ -190,13 +190,13 @@ nfw check
 
 **Success:**
 
-```
+```text
 architecture validation passed in '/path/to/workspace': no forbidden project references, namespaces, direct packages, lint issues, or service test issues found
 ```
 
 **Failure:**
 
-```
+```text
 architecture validation found 3 issue(s)
 - type=project_reference location=/path/to/service/Service.csproj offending_value=../forbidden/Forbidden.csproj hint=remove forbidden project reference and use interface instead
 - type=namespace_usage location=/path/to/service/Handler.cs offending_value=Forbidden.Domain hint=remove forbidden namespace usage
@@ -221,7 +221,7 @@ nfw check
 nfw check || echo "Architecture validation failed"
 ```
 
-#### Configuration
+### Configuration for nfw check
 
 Rules are defined in the workspace's `nfw.yaml` file. The check command reads rule sets that define forbidden project references, namespaces, and packages per architecture layer.
 
