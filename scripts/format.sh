@@ -16,5 +16,10 @@ for helper_format in "${SCRIPT_DIR}/helpers"/*/format.sh; do
 	bash "$helper_format"
 done
 
-echo ""
-acore_log_success "✅ Formatting complete!"
+for project_format in "${REPO_ROOT}"/src/*/scripts/format.sh; do
+	[ -f "$project_format" ] || continue
+	project_name="$(basename "$(dirname "$(dirname "$project_format")")")"
+	acore_log_divider
+	acore_log_info "▶️ Running format in src/$project_name..."
+	bash "$project_format"
+done
