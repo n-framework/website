@@ -17,6 +17,6 @@ if [ ${#markdown_files[@]} -eq 0 ]; then
 	exit 0
 fi
 
-bun run markdownlint-cli2 --fix "${markdown_files[@]}" || true
+bun run markdownlint-cli2 --fix "${markdown_files[@]}" &> /dev/null || true
 
 acore_log_success "✅ Markdown formatting complete!"

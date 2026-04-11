@@ -11,12 +11,11 @@ cd "$REPO_ROOT"
 
 acore_log_section "🔍 Linting markdown files with markdownlint-cli2..."
 
-mapfile -t markdown_files < <(fd -e md -t f . "$REPO_ROOT")
-if [ ${#markdown_files[@]} -eq 0 ]; then
-	acore_log_warning "No markdown files found."
-	exit 0
-fi
+errors=$(bun run markdownlint-cli2 "**/*.md" 2>&1 | grep -v "markdownlint-cli2" | grep -v "^Finding:" | grep -v "^Linting:" | grep -v "^Summary:" || true)
 
-bun run markdownlint-cli2 --fix "${markdown_files[@]}"
+if [ -n "$errors" ]; then
+	printf '%s\n' "$errors"
+	exit 1
+fi
 
 acore_log_success "✨ Markdown linting complete!"

@@ -9,12 +9,12 @@ source "${SCRIPT_DIR}/../packages/acore-scripts/src/logger.sh"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "$REPO_ROOT"
 
-acore_log_section "🔧 Running helper format scripts..."
+acore_log_info "Running format for all projects..."
+
 for helper_format in "${SCRIPT_DIR}/helpers"/*/format.sh; do
 	[ -f "$helper_format" ] || continue
-	helper_name="$(basename "$(dirname "$helper_format")")"
-	acore_log_info "▶️ Running ${helper_name} format..."
 	bash "$helper_format"
 done
 
+echo ""
 acore_log_success "✅ Formatting complete!"
