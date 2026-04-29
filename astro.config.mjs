@@ -28,20 +28,40 @@ export default defineConfig({
           label: 'Core Packages',
           items: [
             {
+              label: '.NET',
+              items: [
+                {
+                  label: 'Persistence',
+                  items: [
+                    { label: 'Overview', link: '/core-packages/dotnet/persistence/' },
+                    { label: 'Entities', link: '/core-packages/dotnet/persistence/entities/' },
+                    { label: 'Repositories', link: '/core-packages/dotnet/persistence/repositories/' },
+                    { label: 'Query System', link: '/core-packages/dotnet/persistence/query-system/' },
+                    { label: 'Interceptors', link: '/core-packages/dotnet/persistence/interceptors/' },
+                    { label: 'Data Lifecycle', link: '/core-packages/dotnet/persistence/data-lifecycle/' },
+                    { label: 'Configuration & DI', link: '/core-packages/dotnet/persistence/configuration-di/' },
+                    { label: 'Integration Guide', link: '/core-packages/dotnet/persistence/integration-guide/' },
+                    { label: 'API Reference', link: '/core-packages/dotnet/persistence/api-reference/' },
+                    { label: 'Advanced Topics', link: '/core-packages/dotnet/persistence/advanced-topics/' },
+                  ],
+                },
+              ],
+            },
+            {
               label: 'Rust',
               items: [
                 {
-                  label: 'nframework-core-cli',
+                  label: 'CLI Abstractions',
                   items: [
                     { label: 'Overview', link: '/core-packages/rust/nframework-core-cli/overview/' },
-                    { label: 'API References', link: '/core-packages/rust/nframework-core-cli/api-references/' },
+                    { label: 'API Reference', link: '/core-packages/rust/nframework-core-cli/api-references/' },
                   ],
                 },
                 {
-                  label: 'nframework-core-template',
+                  label: 'Template Engine',
                   items: [
                     { label: 'Overview', link: '/core-packages/rust/nframework-core-template/overview/' },
-                    { label: 'API References', link: '/core-packages/rust/nframework-core-template/api-references/' },
+                    { label: 'API Reference', link: '/core-packages/rust/nframework-core-template/api-references/' },
                   ],
                 },
               ],
