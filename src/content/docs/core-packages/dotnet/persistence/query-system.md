@@ -97,6 +97,7 @@ public interface IQueryOptionWithSoftDelete
 ```
 
 Implementations:
+
 - `QueryOptionWithSoftDelete<TEntity>` — base query + `IncludeDeleted`
 - `PageableQueryOptionWithSoftDelete<TEntity>` — paginated + `IncludeDeleted`
 
@@ -339,6 +340,7 @@ var complex = new Filter(FilterLogic.Or, new Filter[]
 ```
 
 Generates:
+
 ```sql
 WHERE ([Category] = 'Books' AND [Price] < 20)
    OR ([Category] = 'Electronics' AND [Price] > 500)

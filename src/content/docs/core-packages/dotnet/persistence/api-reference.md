@@ -48,6 +48,7 @@ protected Entity();
 ```
 
 **Remarks:**
+
 - The `[Obsolete]` constructor is required by EF Core for materialization during queries. Use `#pragma warning disable CS0618` in entity classes to suppress warnings.
 - `RowVersion` is configured with `.IsRowVersion()` in EF Core fluent API; it's a `timestamp/rowversion` column in SQL Server or `BLOB` in SQLite.
 - Equality is based on `Id` identity (value equality via `IEquatable<TId>`).
@@ -84,6 +85,7 @@ var errors = entity.Validate();  // Ensures CreatedAt is set
 ```
 
 **Remarks:**
+
 - Do not set `CreatedAt` or `UpdatedAt` manually — `AuditableInterceptor` handles this automatically.
 - Validation ensures `CreatedAt != default` and `UpdatedAt >= CreatedAt` (if set).
 
@@ -115,6 +117,7 @@ await repository.SaveChangesAsync();
 ```
 
 **Remarks:**
+
 - `DeleteAsync()` in `EFCoreRepository` marks the entity as `EntityState.Deleted`. `SoftDeletionInterceptor` catches this during `SavingChanges` and converts it to `Modified`, setting `IsDeleted = true` and `DeletedAt = now`.
 - Soft-deleted entities are automatically excluded from queries via a global query filter.
 - To include deleted entities, pass `IncludeDeleted: true` in `QueryOptionWithSoftDelete`.
@@ -172,6 +175,7 @@ public interface IWriteRepository<TEntity, TId>
 | `BulkDeleteAsync` | `Task<ICollection<TEntity>> BulkDeleteAsync(ICollection<TEntity> entities, CancellationToken ct = default)` | Deletes in chunks; soft-delete interceptors apply. |
 
 **Important:**
+
 - `UpdateAsync()` does not attach the caller's entity instance directly. It fetches the existing tracked entity, copies values with `DbContext.Entry(existing).CurrentValues.SetValues(callerEntity)`, and sets original `RowVersion` to the caller's value for concurrency checking.
 - Bulk operations use `SaveChangesAsync()` after each chunk. Consider wrapping in an explicit transaction if you need atomicity across all batches.
 
@@ -240,6 +244,7 @@ public interface IUnitOfWork
 ```
 
 **Key points:**
+
 - Every `EFCoreRepository` implements `IUnitOfWork`. Any repository instance can commit changes.
 - All repositories constructed with the **same `DbContext` instance** share the same transaction. The typical DI scope (web request) guarantees this.
 - `SaveChangesAsync()` is where interceptors fire and database round-trips occur.
@@ -522,6 +527,7 @@ public Filter(FilterLogic logic, ICollection<Filter> filters);
 ```
 
 **Validation:**
+
 - `Validate()` returns `IEnumerable<string>` of validation errors.
 - Simple filter requires `Field` non-empty, `Value` present for non-null-check operators.
 - Group filter requires `Filters` non-empty; simple filters cannot have nested `Filters`.
@@ -790,6 +796,7 @@ public static ModelBuilder ConfigureEntityConventions(this ModelBuilder modelBui
 ```
 
 Applies:
+
 - Default value generation for `CreatedAt`/`UpdatedAt` (set by interceptor, not needed)
 - Configures decimal precision, string lengths
 
@@ -849,6 +856,7 @@ public sealed class AuditableInterceptor : SaveChangesInterceptor
 ```
 
 **Behavior:**
+
 - `Added` state → `CreatedAt = DateTime.UtcNow` (only if current value is `default`)
 - `Modified` state → `UpdatedAt = DateTime.UtcNow`
 

@@ -380,6 +380,7 @@ public interface ISoftDeletableEntity
 ```
 
 Implemented by `SoftDeletableEntity<TId>`. Presence indicates:
+
 - Global query filter applies (`IsDeleted = false`)
 - `SoftDeletionInterceptor` converts `DeleteAsync()` into an update
 

@@ -223,9 +223,11 @@ foreach (var entry in context.ChangeTracker.Entries())
 ```
 
 **Before interceptor:**
+
 - `product.CreatedAt == default(DateTime)` (0 or uninitialized)
 
 **After interceptor:**
+
 - `product.CreatedAt == 2026-04-29T14:30:00Z` (approx. now)
 
 #### Interceptor 2: SoftDeletionInterceptor (skip for INSERT)
@@ -246,6 +248,7 @@ VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
 ```
 
 Parameters:
+
 - `@p0` = `'a1b2c3...'` (Guid)
 - `@p1` = `'Widget'`
 - `@p2` = `19.99`
